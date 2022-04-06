@@ -1,0 +1,9 @@
+FROM amazon/aws-lambda-nodejs:12
+COPY index.js package.json ./
+RUN npm install
+
+COPY ./newrelic-layer /opt
+
+ENV NEW_RELIC_LAMBDA_HANDLER="app.main.handler"
+ENV NEW_RELIC_LAMBDA_EXTENSION_ENABLED="false"
+CMD [ "newrelic_lambda_wrapper.handler" ]
